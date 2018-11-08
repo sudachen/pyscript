@@ -62,7 +62,7 @@ RUN mkdir ${HOME}/work \
     && conda config --system --prepend channels conda-forge \
     && conda config --system --set auto_update_conda false \
     && conda config --system --set show_channel_urls true \
-    && conda install -y 'pip=10.*' 'python=3.5.5' \
+    && conda install -y 'pip=10.*' 'python=3.6' \
     && conda update --all -y \
     && conda clean -tipsy \
     && rm -rf ${HOME}/.cache/yarn \
@@ -90,12 +90,13 @@ RUN conda install -y \
 #    && conda clean -tipsy 
 
 RUN conda install -y \
- 	'tornado>=3.0,<5.0' \
-	'pyzmq>=13.1.0,<17.0' \
-        'flask>=0.12.2' \
         gunicorn \
-        circus \
-        scrapy \
+        scrapy \        
+    	psutil \
+    && conda clean -tipsy 
+
+RUN conda install -y \
+	-c carta python3-saml \
     && conda clean -tipsy 
 
 RUN pip install -U --no-cache-dir \
@@ -107,11 +108,10 @@ RUN pip install -U --no-cache-dir \
 	'urllib3>=1.22' \
 	singleton_decorator \
 	pytz \
+	circus \
     \
     && conda clean -tipsy 
 
-#RUN conda install -y --no-update-dependencies \
-#    && conda clean -tipsy 
 
 USER root
 
